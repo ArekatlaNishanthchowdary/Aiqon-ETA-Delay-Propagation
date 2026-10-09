@@ -3,7 +3,7 @@
 Predicts a shipment's **final delivery ETA**, the **probability it is badly delayed** (> 48 h), and **which stage caused the delay**,
 re-predicting at each point of the journey. Built for the Aiqon AI internship take-home.
 
-> **Read this first:** all quantitative results come from a **synthetic** shipment simulator I wrote (only the port wind data is real).
+> **Read this first:** the main results come from a **synthetic** shipment simulator I wrote (only the port wind data is real).
 > They demonstrate the method and let me *measure* explanation quality; they are **not** evidence of real-world ETA accuracy.
 
 ## What it does
@@ -49,12 +49,21 @@ Explanation top-1 stage agreement with ground truth: 0.48 at booking, 0.84 after
 mismatch (a fix was tested and was not better); the blend's edge over the direct model alone is small (~1 h) and not uniform across
 simulated worlds; the what-if view is not validated against true counterfactuals. All tables: `report/results.md`; write-up: `report/report.pdf`.
 
+## Real-data check (separate track, `realworld/`)
+
+One stage only, port-arrival ETA, tested on 24 days of real Danish AIS (vessels' declared ETA vs observed arrival; ~30,000
+vessel-hour rows, 27 ports, time-ordered split). A LightGBM correction improves on the declared ETA by about 1.5-2 h MAE
+(10 km arrival radius: 7.27 h -> 5.59 h, 95% CI of the gain +1.11 to +2.25 h) but beats a trivial per-port median correction
+by at most ~1 h, and at a 5 km radius is not distinguishable from it. A physics-only ETA is worse than the declared one.
+A first, outcome-conditioned design that looked far better was retracted. This does **not** validate customs, delivery or the
+propagation model. See `realworld/README.md` and `realworld/results.md`.
+
 ## Quickstart
 
 ```bash
 pip install -r requirements.txt        # pinned versions, Python 3.13
 python scripts/run_all.py              # simulate -> train -> evaluate (~1 min)
-python -m pytest tests -q              # 13 tests
+python -m pytest tests realworld -q    # 23 tests (13 synthetic pipeline + 10 real-data track)
 PYTHONPATH=src python -m aiqon.predict examples/at_port_extreme.json    # explained prediction
 ```
 
@@ -77,6 +86,7 @@ scripts/      run_all.py (full pipeline)   chain_fix_effect.py   chain_dprev_mis
 tests/        test_harness.py  (availability, adversarial leakage, feature consistency, decomposition, missing data,
               invalid timelines, split isolation, calibration, seeds, shapes)
 examples/     four sample shipments (booked, at port, missing stage, clean)
+realworld/    AIS port-arrival validation: ais_extract.py  ports.py  build_dataset.py  validate.py  results.md  tests
 report/       report.pdf/.html  results.md  chain_*.md  fig_main.png  run_metadata.json  baseline_pre_audit/ (results before the audit)
 data/         shipments.csv (generated)  wind_daily.csv (cached real wind)
 ```
@@ -85,5 +95,4 @@ data/         shipments.csv (generated)  wind_daily.csv (cached real wind)
 
 No public dataset has scheduled-vs-actual times for every stage of a shipment, so the data are simulated. Real inputs: port pairs, liner-like
 transit times, ERA5 daily wind at each port. **Assumed** (not measured): terminal-efficiency tiers, congestion dynamics, all effect sizes,
-the 48 h threshold, informative missingness. The models partly learn my own simulator rules. Validating on real records (for example
-port-call ETA vs actual arrival feeds) would be the next step; it can only validate the port-arrival stage, not customs or delivery.
+the 48 h threshold, informative missingness. The models partly learn my own simulator rules. The only real-data evidence is the narrow port-arrival check above; the propagation model itself is untested on real shipments.

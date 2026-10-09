@@ -8,3 +8,5 @@ report/baseline_pre_audit/shipments.csv
 Aiqon_Take_Home_Assignment_4.pdf
 *.pdf
 
+aisdk-*.zip
+*.zip.part
