@@ -34,7 +34,7 @@ Two further bugs were found and fixed by checking against the data: the Frederic
 vessels that sailed out of receiver coverage were being labelled as no-shows.
 
 ## Data
-Danish Maritime Authority open AIS, daily files `aisdk-YYYY-MM-DD.zip` (~600 MB zipped, ~3 GB CSV, ~17M messages/day). Each position
+[Danish Maritime Authority open AIS](https://www.dma.dk/safety-at-sea/navigational-information/ais-data), daily files `aisdk-YYYY-MM-DD.zip` (~600 MB zipped, ~3 GB CSV, ~17M messages/day). Each position
 message carries the vessel's *currently declared* `Destination` and `ETA` (with year), MMSI, ship type, speed. Download the files
 yourself and keep them **outside the repo**; they and all derived data are git-ignored.
 

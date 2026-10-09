@@ -254,7 +254,7 @@ Chance for top-1 agreement is 0.20. Explanations are weak before departure becau
 ## Real-data check
 
 A separate track in [`realworld/`](realworld/) tests **one stage only** — port-arrival ETA — on real data: 24 consecutive days of
-Danish Maritime Authority open AIS, in which vessels broadcast their own declared destination and ETA. The question is whether a
+[Danish Maritime Authority open AIS](https://www.dma.dk/safety-at-sea/navigational-information/ais-data), in which vessels broadcast their own declared destination and ETA. The question is whether a
 model can correct that declared ETA. It does **not** validate customs, delivery, or the propagation model above.
 
 ```mermaid
@@ -278,7 +278,7 @@ A physics-only ETA is worse than the declared one, and the model is far weaker o
 **A first design was retracted.** Keeping only vessels that *did* arrive within a fixed window showed a much larger gain
 (12.75 h vs 24.63 h). A sensitivity check revealed the error scaled with the window length — the selection leaked the outcome.
 The current design selects rows using only information known at prediction time and keeps vessels that never arrive.
-Details: [`realworld/README.md`](realworld/README.md).
+Details: [`realworld/README.md`](realworld/README.md). Data source: [Danish Maritime Authority, AIS data](https://www.dma.dk/safety-at-sea/navigational-information/ais-data).
 
 ---
 
