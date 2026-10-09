@@ -38,7 +38,7 @@ def predict_one(model, rec: dict) -> dict:
             r[f"{p}_{m}"] = pd.Timestamp(r.get(f"{p}_{m}")) if r.get(f"{p}_{m}") else pd.NaT
     known = [j for j, m in enumerate(MILESTONES[:4]) if pd.notna(r[f"act_{m}"])]
     k = max(known) + 1 if known else 0                     # checkpoint = latest milestone reached
-    r.update(act_delivery=r["sched_delivery"], final_delay_h=0.0, delayed=0, shipment_id="query")
+    r.update(act_delivery=pd.NaT, final_delay_h=0.0, delayed=0, shipment_id="query")   # delivery is what we predict: unknown
     wide = pd.DataFrame([r]); validate(wide)
     L = build_long(wide); L = L[L.ckpt == k]
     out = model.predict(L, wide).iloc[0]
@@ -51,7 +51,10 @@ def predict_one(model, rec: dict) -> dict:
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         sys.exit("usage: python -m aiqon.predict <shipment.json>")
-    with open(ROOT / "models" / "predictor.pkl", "rb") as fh:
+    path = ROOT / "models" / "predictor.pkl"
+    if not path.exists():
+        sys.exit(f"no trained model at {path}: run `python scripts/run_all.py` first (the model is not stored in git)")
+    with open(path, "rb") as fh:
         model = load_model(fh)
     with open(sys.argv[1]) as fh:
         res = predict_one(model, json.load(fh))

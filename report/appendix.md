@@ -25,6 +25,11 @@ error by at most 0.1 h. Ablations were run on the direct model only, not the cha
 | Route hold-out, two unseen routes (1,289 / 322 / 389) | 22.3 h (CI 20.4–24.4) | 33.0 h | 0.62–0.78 | Early top-1 attribution (0.52, 0.54) no better than always blaming the port (0.52) |
 | Three independent simulated worlds | 16.9 ± 1.1 h | 25.8 ± 2.0 h | 0.79 ± 0.02 | In one world the blend is no better than the direct model (18.06 vs 17.94 h) |
 
+**Is the blend worth the extra model?** Paired bootstrap of MAE(direct) − MAE(blend), 95% CI: temporal split +0.7 to +1.5 h; 300-shipment subset
++1.7 to +3.5 h; route hold-out +1.2 to +3.2 h. Against the chain alone: +1.0 to +1.9 h, +0.6 to +4.1 h, +0.8 to +2.0 h. The gain is small but
+consistent in sign within each test set, and largest where the data shift. The chain is also what produces the stage attributions, so it is
+required for the explanations regardless of its effect on accuracy.
+
 ## C. Delay probability and intervals (source: `results.md`, section A)
 
 | Estimator of P(delay > 48 h) | AUC | Brier | ECE |

@@ -63,12 +63,15 @@ def run(df, mode="temporal", seed=0, with_ablation=True):
     ids = Lte.shipment_id.values; u = np.unique(ids); rng = np.random.default_rng(0)
     idx = {s: np.where(ids == s)[0] for s in u}
     ae = {"ours": np.abs(y - preds["blend (ours)"]), "best_baseline": np.abs(y - preds["carry-forward + median remaining"])}
-    ci = {k: [] for k in ae} | {"diff (baseline - ours)": []}
+    extra = {"diff (direct - ours)": np.abs(y - preds["direct GBM"]), "diff (chain - ours)": np.abs(y - preds["chain (propagation) model"])}
+    ci = {k: [] for k in ae} | {"diff (baseline - ours)": []} | {k: [] for k in extra}
     for _ in range(500):                                     # paired bootstrap over shipments (all checkpoints of a shipment move together)
         pick = np.concatenate([idx[s] for s in rng.choice(u, len(u))])
         for k in ae:
             ci[k].append(ae[k][pick].mean())
         ci["diff (baseline - ours)"].append(ae["best_baseline"][pick].mean() - ae["ours"][pick].mean())
+        for k, v in extra.items():                           # is the blend's edge over each component real?
+            ci[k].append(v[pick].mean() - ae["ours"][pick].mean())
     res["MAE_ci"] = {k: np.percentile(v, [2.5, 97.5]) for k, v in ci.items()}
     # intervals + delay probability
     cov = (y >= out.lo.values) & (y <= out.hi.values)

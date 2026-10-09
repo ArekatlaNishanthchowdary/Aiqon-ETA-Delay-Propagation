@@ -1,5 +1,5 @@
 {
- "timestamp": "20261009_225037",
+ "timestamp": "20261010_000926",
  "python": "3.13.11",
  "seeds": {
   "simulator": [
@@ -42,5 +42,5 @@
   "scipy": "1.17.0",
   "matplotlib": "3.10.8"
  },
- "runtime_s": 47
+ "runtime_s": 58
 }

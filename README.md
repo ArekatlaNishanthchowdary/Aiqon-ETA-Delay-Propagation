@@ -243,7 +243,8 @@ Chance for top-1 agreement is 0.20. Explanations are weak before departure becau
 
 ### What did not work, stated plainly
 
-- The **blend's edge over the direct model alone is about one hour** and is not uniform: in one simulated world it was no better.
+- The **blend's edge over the direct model alone is small**: 0.7–1.5 h (95% paired CI) on the main split and 1.2–3.2 h on unseen routes,
+  and in one of three simulated worlds it was no better. The chain model is kept mainly because it produces the stage-level explanations.
 - The **chain model has a known mismatch**: it is trained on the true previous-stage delay but receives a predicted one at inference.
   Three corrections were tested on validation data (out-of-fold inputs, a sequential residual chain, a stacked combiner);
   none was better, so the bias is measured and documented but not removed ([appendix](report/appendix.md), section D2).
@@ -355,7 +356,7 @@ src/aiqon/          core package
   evaluate.py         baselines, splits, metrics, ablations
   predict.py          command-line interface
 scripts/            run_all.py and two chain-model investigations
-tests/              13 tests for the synthetic pipeline
+tests/              14 tests for the synthetic pipeline
 realworld/          AIS port-arrival validation: extractor, port map, dataset builder, validation, 10 tests
 examples/           four sample shipments
 report/             report.pdf, appendix.md, results.md, figures, run metadata, pre-audit baseline
@@ -366,7 +367,7 @@ data/               generated shipments and cached wind
 
 ## Testing and reproducibility
 
-23 tests, none of which need the network:
+24 tests, none of which need the network:
 
 | Area | What is checked |
 |---|---|

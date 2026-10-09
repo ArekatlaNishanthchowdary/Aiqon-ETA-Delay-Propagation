@@ -18,7 +18,7 @@ shipments: train 1200, calibration 300, test 500 (2500 checkpoint rows)
 | direct GBM, no weather                    |     22.7 |       22.8 |      18.8 |         13.9 |               7.2 |      17.1 |
 | direct GBM, no missingness info           |     22.6 |       22.7 |      18.9 |         13.8 |               7.1 |      17   |
 
-Overall MAE 95% paired-bootstrap CI (500 resamples of test shipments): ours [14.7 17.3]; best_baseline [23.  25.5]; diff (baseline - ours) [7.1 9.5]
+Overall MAE 95% paired-bootstrap CI (500 resamples of test shipments): ours [14.7 17.3]; best_baseline [23.  25.5]; diff (baseline - ours) [7.1 9.5]; diff (direct - ours) [0.7 1.5]; diff (chain - ours) [1.  1.9]
 
 ### 80% interval coverage / mean width (h) / delay AUC by checkpoint
 
@@ -65,7 +65,7 @@ shipments: train 180, calibration 45, test 75 (375 checkpoint rows)
 | chain (propagation) model        |     26.4 |       29.7 |      23.4 |         11.1 |               4.9 |      19.1 |
 | blend (ours)                     |     23.3 |       23.2 |      21.6 |         10.6 |               4.9 |      16.7 |
 
-Overall MAE 95% paired-bootstrap CI (500 resamples of test shipments): ours [13.5 21.1]; best_baseline [20.8 28.5]; diff (baseline - ours) [ 5.1 10. ]
+Overall MAE 95% paired-bootstrap CI (500 resamples of test shipments): ours [13.5 21.1]; best_baseline [20.8 28.5]; diff (baseline - ours) [ 5.1 10. ]; diff (direct - ours) [1.7 3.5]; diff (chain - ours) [0.6 4.1]
 
 ### 80% interval coverage / mean width (h) / delay AUC by checkpoint
 
@@ -112,7 +112,7 @@ shipments: train 1289, calibration 322, test 389 (1945 checkpoint rows)
 | chain (propagation) model        |     35.6 |       34.9 |      22.3 |         18.5 |               7   |      23.7 |
 | blend (ours)                     |     33.1 |       32.4 |      21.9 |         17.3 |               6.9 |      22.3 |
 
-Overall MAE 95% paired-bootstrap CI (500 resamples of test shipments): ours [20.4 24.4]; best_baseline [30.5 35.5]; diff (baseline - ours) [ 9.1 12.2]
+Overall MAE 95% paired-bootstrap CI (500 resamples of test shipments): ours [20.4 24.4]; best_baseline [30.5 35.5]; diff (baseline - ours) [ 9.1 12.2]; diff (direct - ours) [1.2 3.2]; diff (chain - ours) [0.8 2. ]
 
 ### 80% interval coverage / mean width (h) / delay AUC by checkpoint
 

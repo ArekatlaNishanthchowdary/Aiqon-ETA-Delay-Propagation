@@ -139,6 +139,19 @@ def test_predict_one_validates_and_handles_gaps(world):
         predict_one(m, {**rec, "dest_efficiency": None})
 
 
+def test_predict_one_on_a_shipment_already_later_than_its_schedule(world):
+    """Regression: known actuals may lie after the SCHEDULED delivery; the unknown delivery time must not be faked."""
+    m, df = world["m"], world["te"]
+    late = df[df.act_customs.notna() & (df.act_customs > df.sched_delivery)]
+    assert len(late), "fixture should contain a shipment that clears customs after its scheduled delivery"
+    r = late.iloc[0]
+    rec = {k: (str(v) if isinstance(v, pd.Timestamp) else (None if pd.isna(v) else (v.item() if hasattr(v, "item") else v)))
+           for k, v in r.items() if not k.startswith("gt_")}
+    rec["act_delivery"] = None
+    out = predict_one(m, rec)
+    assert out["checkpoint"] == "customs_cleared" and np.isfinite(out["delay_h"]) and out["delay_h"] > 0
+
+
 # 7. split isolation
 def test_split_isolation():
     df = _sorted(simulate(300, seed=2))

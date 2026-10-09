@@ -41,7 +41,7 @@ th:first-child,td:first-child{text-align:left}th{background:#eee}
 <li><b>ETA.</b> Overall error is 16.0 h (95% CI 14.7&ndash;17.3) against 24.2 h for the best baseline, a paired improvement of 7.1&ndash;9.5 h. Error falls from 23.1 h at booking to 4.2 h after customs. Across three independently simulated worlds the blend averages 16.9 &plusmn; 1.1 h against 25.8 &plusmn; 2.0 h.</li>
 <li><b>Uncertainty.</b> 80% intervals cover 0.77&ndash;0.87 of outcomes by checkpoint. The delay probability has AUC 0.89 overall (0.82 at booking, 0.99 after customs).</li>
 <li><b>Explanations.</b> The stage blamed most agrees with ground truth 48% of the time at booking and 84% after customs (chance: 20%). They are weak early because the causes have not happened yet.</li>
-<li><b>Weak spots.</b> On two routes never seen in training, error is 22.3 h (baseline 33.0 h) but interval coverage drops to 0.62&ndash;0.78. The blend's edge over the direct model alone is about one hour and is absent in one simulated world.</li>
+<li><b>Weak spots.</b> On two routes never seen in training, error is 22.3 h (baseline 33.0 h) but interval coverage drops to 0.62&ndash;0.78. The blend beats the direct model alone by a small but reliable margin (0.7&ndash;1.5 h, 95% paired CI; 1.2&ndash;3.2 h on unseen routes), though not in one of three simulated worlds; the chain model is kept mainly because it supplies the stage-level explanations.</li>
 </ul>
 
 <h2>5. Evidence from real data</h2>
@@ -68,5 +68,5 @@ th:first-child,td:first-child{text-align:left}th{background:#eee}
 </ul>
 
 <h2>7. Reproduce</h2>
-<p><code>pip install -r requirements.txt</code> (pinned, Python 3.13), then <code>python scripts/run_all.py</code> (about one minute) and <code>python -m pytest tests realworld -q</code> (23 tests). Runs are deterministic. Real-data steps and the audit log are in <code>realworld/README.md</code> and <code>report/appendix.md</code>.</p>
+<p><code>pip install -r requirements.txt</code> (pinned, Python 3.13), then <code>python scripts/run_all.py</code> (about one minute) and <code>python -m pytest tests realworld -q</code> (24 tests). Runs are deterministic. Real-data steps and the audit log are in <code>realworld/README.md</code> and <code>report/appendix.md</code>.</p>
 </body></html>
