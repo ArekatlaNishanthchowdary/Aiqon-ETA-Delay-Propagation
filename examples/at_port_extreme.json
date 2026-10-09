@@ -1,0 +1,21 @@
+{
+ "origin": "Nhava Sheva",
+ "dest": "Los Angeles",
+ "transshipment": 1,
+ "sched_departure": "2024-03-13 03:00:00",
+ "sched_port_arrival": "2024-04-18 08:10:56.915352",
+ "sched_discharge": "2024-04-20 08:10:56.915352",
+ "sched_customs": "2024-04-21 20:10:56.915352",
+ "sched_delivery": "2024-04-22 20:10:56.915352",
+ "act_departure": "2024-03-13 13:20:43.148170",
+ "act_port_arrival": "2024-04-19 09:08:39.310979",
+ "act_discharge": null,
+ "act_customs": null,
+ "dest_efficiency": 0.45,
+ "cong_at_departure": 0.3733166747881202,
+ "cong_at_arrival": 0.690610291925175,
+ "wind_origin_dep": 27.9,
+ "wind_dest_arr": 14.6,
+ "customs_risk": 0.1847424650625812,
+ "docs_flag": 0
+}

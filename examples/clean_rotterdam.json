@@ -1,0 +1,21 @@
+{
+ "origin": "Mundra",
+ "dest": "Rotterdam",
+ "transshipment": 0,
+ "sched_departure": "2024-04-11 10:00:00",
+ "sched_port_arrival": "2024-05-05 05:19:13.273529",
+ "sched_discharge": "2024-05-07 05:19:13.273529",
+ "sched_customs": "2024-05-08 17:19:13.273529",
+ "sched_delivery": "2024-05-09 17:19:13.273529",
+ "act_departure": "2024-04-11 16:24:57.691084",
+ "act_port_arrival": "2024-05-05 08:18:12.511190",
+ "act_discharge": "2024-05-06 14:04:03.679670",
+ "act_customs": null,
+ "dest_efficiency": 0.75,
+ "cong_at_departure": 0.0482769968382635,
+ "cong_at_arrival": -0.0053599240341983,
+ "wind_origin_dep": 23.2,
+ "wind_dest_arr": 14.5,
+ "customs_risk": 0.2033565096437826,
+ "docs_flag": 0
+}

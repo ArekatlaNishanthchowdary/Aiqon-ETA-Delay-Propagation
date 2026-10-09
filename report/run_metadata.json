@@ -1,0 +1,46 @@
+{
+ "timestamp": "20261009_181432",
+ "python": "3.13.11",
+ "seeds": {
+  "simulator": [
+   0,
+   1,
+   2
+  ],
+  "model": 0,
+  "subset_sample": 1,
+  "bootstrap": 0
+ },
+ "data": {
+  "n_shipments": 2000,
+  "delay_threshold_h": 48.0,
+  "split": "temporal 60/15/25 by scheduled departure; route hold-out = Nhava Sheva>Hamburg, Chennai>Los Angeles"
+ },
+ "model": {
+  "lightgbm_params": {
+   "n_estimators": 250,
+   "learning_rate": 0.04,
+   "num_leaves": 8,
+   "min_child_samples": 15,
+   "subsample": 0.8,
+   "subsample_freq": 1,
+   "colsample_bytree": 0.8,
+   "verbose": -1,
+   "random_state": 0,
+   "deterministic": true,
+   "force_row_wise": true,
+   "n_jobs": 1
+  },
+  "calibration": "half A: blend weights; half B: conformal + isotonic",
+  "interval": "split-conformal 80%"
+ },
+ "packages": {
+  "numpy": "2.4.2",
+  "pandas": "3.0.1",
+  "scikit-learn": "1.9.0",
+  "lightgbm": "4.7.0",
+  "scipy": "1.17.0",
+  "matplotlib": "3.10.8"
+ },
+ "runtime_s": 48
+}

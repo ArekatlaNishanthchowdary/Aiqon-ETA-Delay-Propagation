@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.impeccable/
+models/predictor.pkl
+report/archive/
+report/baseline_pre_audit/shipments.csv
+Aiqon_Take_Home_Assignment_4.pdf
+*.pdf
+
