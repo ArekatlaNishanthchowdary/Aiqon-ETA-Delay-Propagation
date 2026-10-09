@@ -70,12 +70,13 @@ with open(root / "models" / "metadata.json", "w") as fh:
 
 # ---- figure: error curve + example stage attribution vs ground truth
 tab = main["MAE_table"]
-fig, ax = plt.subplots(1, 2, figsize=(11, 3.8))
+plt.rcParams.update({'font.size': 12})
+fig, ax = plt.subplots(1, 2, figsize=(13, 5.2))
 for n in ["schedule (delay=0)", "carry-forward last delay", "carry-forward + median remaining", "direct GBM",
           "chain (propagation) model", "blend (ours)"]:
-    ax[0].plot(CKPT_NAMES, tab.loc[n, CKPT_NAMES], marker="o", lw=3 if "ours" in n else 1.3, label=n)
+    ax[0].plot([c.replace('_', ' ') for c in CKPT_NAMES], tab.loc[n, CKPT_NAMES], marker="o", lw=3.5 if "ours" in n else 1.6, label=n)
 ax[0].set_ylabel("ETA MAE (h)"); ax[0].set_title("ETA error shrinks as the journey progresses (synthetic data)")
-ax[0].legend(fontsize=7); ax[0].tick_params(axis="x", rotation=20)
+ax[0].legend(fontsize=10); ax[0].tick_params(axis="x", rotation=15); ax[0].set_ylim(0, None); ax[0].grid(alpha=.3)
 m, Lte, out = main["model"], main["Lte"], main["out"]
 w = df.set_index("shipment_id"); k = 2
 sub = Lte[Lte.ckpt == k]; sid = sub.shipment_id.iloc[int(np.argmax(out.loc[sub.index, "delay_h"].values))]
@@ -84,6 +85,6 @@ G = [f"gt_stage{j}" for j in range(5)]
 gt = w.loc[sid, G].values.astype(float) - main["splits"][0][G].median().values   # excess over a typical shipment
 x = np.arange(5); ax[1].bar(x - .2, attr[0], .4, label="model attribution"); ax[1].bar(x + .2, gt, .4, label="simulator ground truth (excess over typical)")
 ax[1].set_xticks(x); ax[1].set_xticklabels(["departure", "ocean", "port", "customs", "inland"]); ax[1].set_ylabel("hours of final delay")
-ax[1].set_title(f"Stage attribution, {sid} (at port arrival)"); ax[1].legend(fontsize=8)
+ax[1].set_title(f"Stage attribution, {sid} (at port arrival)"); ax[1].legend(fontsize=10, loc='upper left'); ax[1].set_ylim(None, ax[1].get_ylim()[1] * 1.18); ax[1].grid(alpha=.3, axis='y')
 plt.tight_layout(); plt.savefig(root / "report" / "fig_main.png", dpi=150)
 print("\n".join(md))

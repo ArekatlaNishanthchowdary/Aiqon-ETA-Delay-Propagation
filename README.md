@@ -245,7 +245,8 @@ Chance for top-1 agreement is 0.20. Explanations are weak before departure becau
 
 - The **blend's edge over the direct model alone is about one hour** and is not uniform: in one simulated world it was no better.
 - The **chain model has a known mismatch**: it is trained on the true previous-stage delay but receives a predicted one at inference.
-  A principled fix was implemented and tested on validation data; it was not better, so it is switched off and documented.
+  Three corrections were tested on validation data (out-of-fold inputs, a sequential residual chain, a stacked combiner);
+  none was better, so the bias is measured and documented but not removed ([appendix](report/appendix.md), section D2).
 - **Interval coverage degrades on unseen routes**, and the calibrated delay probability is no better calibrated than the raw classifier.
 - The **what-if view is not validated** against true counterfactuals; its magnitudes are indicative only.
 
@@ -274,6 +275,12 @@ MAE in hours on the latest 20% of the period (~30,000 vessel-hour rows, 27 ports
 Against a trivial per-port median correction the model wins by at most about one hour, and at 5 km it is not distinguishable.
 The declared ETA is already good in the typical case (median error ≈ 1.5 h); the error is driven by stale ETAs and no-shows.
 A physics-only ETA is worse than the declared one, and the model is far weaker on vessels it has not seen.
+
+**Do the simulator's assumptions hold in real data?** A separate check on 1,639 real port stays tested four mechanisms written into
+the simulator. Heavy-tailed port times and a late tail in arrivals are supported. The assumption that congestion lengthens the port
+stage was **not detected** (correlation −0.03, CI −0.08 to +0.03, against +0.55 in the simulator), nor was a weekend effect. The proxy
+is crude and the ports are small, but the simulator's strongest assumption is not externally validated
+([`realworld/simulator_check.md`](realworld/simulator_check.md)).
 
 **A first design was retracted.** Keeping only vessels that *did* arrive within a fixed window showed a much larger gain
 (12.75 h vs 24.63 h). A sensitivity check revealed the error scaled with the window length — the selection leaked the outcome.
@@ -331,7 +338,8 @@ Records with missing required fields or timelines that run backwards are rejecte
 | `models/predictor.pkl` | Trained predictor used by the CLI |
 | `report/archive/` | Previous outputs, archived rather than overwritten |
 
-Two further scripts document investigations of the chain model: `scripts/chain_fix_effect.py` and `scripts/chain_dprev_mismatch.py`.
+Two further scripts document investigations of the chain model: `scripts/chain_fix_effect.py` and `scripts/chain_exposure_bias.py`.
+Secondary tables, ablations and the audit log are in [`report/appendix.md`](report/appendix.md).
 
 ---
 
@@ -350,7 +358,7 @@ scripts/            run_all.py and two chain-model investigations
 tests/              13 tests for the synthetic pipeline
 realworld/          AIS port-arrival validation: extractor, port map, dataset builder, validation, 10 tests
 examples/           four sample shipments
-report/             report.pdf, results.md, figures, run metadata, pre-audit baseline
+report/             report.pdf, appendix.md, results.md, figures, run metadata, pre-audit baseline
 data/               generated shipments and cached wind
 ```
 
@@ -384,5 +392,7 @@ byte-identical `results.md`.
 - **No end-to-end real validation.** The only real-data evidence is the port-arrival check, on one region and 24 days. No public
   source links departure, port, customs and delivery for the same shipment, so the propagation model itself is untested on real shipments.
 - **Distribution shift.** Conformal intervals assume conditions like those seen in calibration and lose coverage on unseen routes.
-- **Known model gap.** The chain model's train/inference mismatch on the previous-stage delay is unresolved.
+- **Simulator mechanisms only partly supported.** Checked against real port stays, the assumed congestion effect was not detected
+  (correlation −0.03 vs +0.55 in the simulator); heavy tails and a late-arrival tail were. See `realworld/simulator_check.md`.
+- **Known model gap.** The chain model's exposure bias on the previous-stage delay is measured but unresolved.
 - **Next step.** Linked shipment milestones from a carrier or forwarder, ingested through the same data contract.

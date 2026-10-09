@@ -42,6 +42,7 @@ yourself and keep them **outside the repo**; they and all derived data are git-i
 ```bash
 python -I realworld/ais_extract.py C:/path/to/ais_days   # zips -> realworld/data/days/*.csv.gz (idempotent, ~70 s per day)
 python realworld/validate.py 5 10 15                     # writes realworld/results.md (three radii = sensitivity to "arrival")
+python realworld/simulator_check.py                      # do the simulator's mechanisms appear in real port stays? -> simulator_check.md
 python -m pytest realworld -q                            # 10 tests on synthetic AIS tracks, no data needed
 ```
 

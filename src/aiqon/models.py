@@ -81,15 +81,18 @@ class Chain:
             out.append(s)
         return out
 
+    def key(self, j, k):
+        """Which stage-j model serves checkpoint k (one per information regime here)."""
+        return (j, regime(k))
+
     def stage_pred(self, j, pairs, dvec):
-        """g_j evaluated for each (row, checkpoint) with the model of that checkpoint's information regime."""
+        """g_j evaluated for each (row, checkpoint) with the model that serves that checkpoint."""
         out = np.zeros(len(pairs))
-        regs = np.array([regime(k) for _, k in pairs])
-        for reg in range(3):
-            idx = np.where(regs == reg)[0]
-            if len(idx):
-                X = pd.DataFrame([stage_row(j, pairs[i][0], dvec[i], pairs[i][1]) for i in idx])[self.cols[(j, reg)]]
-                out[idx] = self.g[(j, reg)].predict(X)
+        keys = [self.key(j, k) for _, k in pairs]
+        for key in set(keys):
+            idx = [i for i, q in enumerate(keys) if q == key]
+            X = pd.DataFrame([stage_row(j, pairs[i][0], dvec[i], pairs[i][1]) for i in idx])[self.cols[key]]
+            out[idx] = self.g[key].predict(X)
         return out
 
     def predict(self, pairs, cf: dict | None = None, return_stage=False):

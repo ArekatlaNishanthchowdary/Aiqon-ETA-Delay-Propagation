@@ -1,6 +1,6 @@
 """Explanations: stage-level counterfactual attribution + feature-level drivers + plain-English report."""
 import numpy as np, pandas as pd
-from .features import stage_row, regime
+from .features import stage_row
 
 STAGES = ["origin departure", "ocean leg", "port berth & terminal dwell", "customs clearance", "inland delivery"]
 LABEL = {
@@ -37,11 +37,11 @@ def top_driver(chain, pair, j, incs=None):
     if incs is None:
         incs = chain.predict([pair], return_stage=True)[1][0]
     dprev = float(incs[:j].sum())
-    reg = regime(k)
-    x = pd.DataFrame([stage_row(j, r, dprev, k)])[chain.cols[(j, reg)]]
-    c = chain.g[(j, reg)].predict(x, pred_contrib=True)[0][:-1]
+    key = chain.key(j, k)
+    x = pd.DataFrame([stage_row(j, r, dprev, k)])[chain.cols[key]]
+    c = chain.g[key].predict(x, pred_contrib=True)[0][:-1]
     i = int(np.argmax(c))
-    return chain.cols[(j, reg)][i], float(c[i])
+    return chain.cols[key][i], float(c[i])
 
 
 def explain(chain, pair, point, lo, hi, p_delay, eta_sched):
