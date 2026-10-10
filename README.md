@@ -30,11 +30,13 @@ Built for the Aiqon AI internship take-home assignment (*Predicting Shipment ETA
 
 ## Demo
 
-**[Watch the demo video (2 min 23 s, 1080p)](demo/demo_1080p.mp4)**
+[![Demo: the system running end to end](demo/demo_preview.gif)](demo/demo_1080p.mp4)
 
-A narrated walkthrough with subtitles: the test suite, one explained prediction, a held-out shipment re-predicted at every
-checkpoint, the results figure, the real-data check, and the limits. Every command shown is really executed and its output is
-unedited. The narration is a synthetic voice (KittenTTS 2), not a human recording.
+*The preview above plays silently and loops. Click it for the full video with narration (2 min 23 s, 1080p).*
+
+It shows the test suite, one explained prediction, a held-out shipment re-predicted at every checkpoint, the results figure,
+the real-data check, and the limits. Every command shown is really executed and its output is unedited. The narration in the
+full video is a synthetic voice (KittenTTS 2), not a human recording.
 
 ---
 
