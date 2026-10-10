@@ -10,3 +10,7 @@ Aiqon_Take_Home_Assignment_4.pdf
 
 aisdk-*.zip
 *.zip.part
+
+# demo build files stay local; only the finished video is tracked
+demo/*
+!demo/demo_1080p.mp4
